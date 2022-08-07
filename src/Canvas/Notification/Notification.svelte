@@ -1,18 +1,16 @@
 <script lang="ts">
-import type { NotificationStore } from "../Store/Store";
 import { fly, fade } from 'svelte/transition';
-import type { Writable } from "svelte/store";
-import { flip } from "svelte/animate";
-import { slide } from 'svelte/transition';
-import { onDestroy } from "svelte";
+import { getContext, onDestroy } from "svelte";
+import { appContextKey } from '../../AppContext';
 
-export let notificationStore: Writable<NotificationStore>;
+const { notificationStore } = getContext(appContextKey);
 
 let notifications
 const unsubscribe = notificationStore.subscribe(storeState => {
     notifications = storeState.notifications;
 })
 onDestroy(unsubscribe)
+
 </script>
 
 <div class="notification-container">

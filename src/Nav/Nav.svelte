@@ -1,9 +1,26 @@
 <script lang="ts">
-    
+import Reset from "carbon-icons-svelte/lib/Reset.svelte";
+import { getContext } from "svelte";
+import { AppContext, appContextKey } from "../AppContext";
+import { reset } from "../Store/Utils";
+
+const { guessStore, positionStore }: AppContext = getContext(appContextKey);
+
+const handleResetClick = () => {
+    reset(guessStore, positionStore);
+}
+
 </script>
 
 <div class="nav">
-    Wordle Trainer
+    <div class="left-menu" on:click={handleResetClick}>
+        <Reset size={24}/>
+    </div>
+   <div class="app-name">
+        Wordle Trainer
+   </div> 
+   <div>
+   </div>
 </div>
 
 <style>
@@ -13,8 +30,19 @@
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         border-bottom: 1px solid black;
+        padding: 1em;
+        box-sizing: border-box;
+    }
+
+    .app-name {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .left-menu {
+        font-size: 16px;
     }
     
 </style>

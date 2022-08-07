@@ -27,8 +27,10 @@
   "dependencies": {
     "@rollup/plugin-replace": "^4.0.0",
     "axios": "^0.27.2",
+    "carbon-icons-svelte": "^11.2.0",
     "dotenv": "^16.0.1",
     "sirv-cli": "^2.0.0",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "uuid": "^8.3.2"
   }
 }

@@ -46,7 +46,8 @@ export default {
 		// Add process and env vars
 		replace({
 			'process.env.wordApiKey': wordApiKey,
-			'process.env.wordApiHost': wordApiHost		
+			'process.env.wordApiHost': wordApiHost,
+			preventAssignment: true		
 		}),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),

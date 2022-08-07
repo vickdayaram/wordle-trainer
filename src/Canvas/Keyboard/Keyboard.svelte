@@ -1,15 +1,13 @@
 <script lang="ts">
-import { get, Writable } from "svelte/store";
-import { CLOSE, INCOMPLETE_GUESS, YOU_WIN } from "../Notification/NotificationMessages";
-import type { NotificationStore, PositionStore } from "../Store/Store";
-import { backspace, getCurrentGuess, isCorrectGuess, isGameComplete, isGuessComplete, notify, processCharInput, updateCurrentGuess } from "../Store/Utils";
+import { backspace, isGameComplete, isGuessComplete, isLastGuess, multiLineNotify, notify, processCharInput, updateCurrentGuess, validateGuess } from "../../Store/Utils";
 
 import Key from "./Key.svelte";
+import { AppContext, appContextKey } from "../../AppContext";
+import { getContext } from "svelte";
+import { CLOSE, getTheWordWasMessage, INCOMPLETE_GUESS, YOU_LOOSE, YOU_WIN } from "../../AppConfig";
+import { get } from "svelte/store";
 
-export let guessStore: Writable<string[][]>;
-export let positionStore: Writable<PositionStore>;
-export let notificationStore: Writable<NotificationStore>;
-export let gameWordStore: Writable<string>;
+const { guessStore, positionStore, notificationStore, gameWordStore }: AppContext = getContext(appContextKey);
 
 const keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -19,21 +17,27 @@ const keys = [
 
 const onKeyPress = (keyValue: string) => {
     
-    console.log(keyValue);
     if (isGameComplete(positionStore)) {
         return;
     }
 
     if (keyValue === "Enter" && !isGuessComplete(positionStore)) {
         notify(notificationStore, INCOMPLETE_GUESS);
+        return;
     }
     
     if (keyValue === "Enter") {
-        if (isCorrectGuess(guessStore, positionStore, gameWordStore)) {
+        const isCorrectGuess = validateGuess(guessStore, positionStore, gameWordStore);
+        if (isCorrectGuess) {
             notify(notificationStore, YOU_WIN);
             return;
         }
-        updateCurrentGuess(positionStore);        
+        updateCurrentGuess(positionStore);
+        if (isLastGuess(positionStore)) {
+            const gameword = get(gameWordStore);
+            multiLineNotify(notificationStore, [YOU_LOOSE, getTheWordWasMessage(gameword)])
+            return;
+        }        
         notify(notificationStore, CLOSE);
         return;
     }

@@ -1,20 +1,24 @@
 <script lang="ts">
-import type { Writable } from 'svelte/store';
+import { getContext, onDestroy } from 'svelte';
+import { appContextKey } from '../../AppContext';
+import type { CharGuessBox } from '../../Store/Models';
 
-    import CharInput from './CharInput.svelte';
-    export let guessStore: Writable<string[][]>;
-    let board;
-    guessStore.subscribe(guessState => {
-        board = guessState;
-    })
-    	
+import CharInput from './CharInput.svelte';
+
+const { guessStore } = getContext(appContextKey);
+let board: CharGuessBox[][];
+const unsub = guessStore.subscribe(guessState => {
+    board = guessState;
+})
+
+onDestroy(unsub);
 </script>
 
 <div class="guess-board">
     {#each board as guess}
         <div class="guess">
-            {#each guess as char}
-                <CharInput value={char}/>
+            {#each guess as cgb}
+                <CharInput {cgb} --background-color={cgb.backgroundColor}/>
             {/each}
         </div>
     {/each}
