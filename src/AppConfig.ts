@@ -1,4 +1,4 @@
-export const NUM_GUESSES = 1;
+export const NUM_GUESSES = 5;
 export const WORD_LENGTH = 5;
 
 // CheckBox Colors

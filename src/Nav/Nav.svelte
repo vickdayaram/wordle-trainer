@@ -4,10 +4,10 @@ import { getContext } from "svelte";
 import { AppContext, appContextKey } from "../AppContext";
 import { reset } from "../Store/Utils";
 
-const { guessStore, positionStore }: AppContext = getContext(appContextKey);
+const { guessStore, positionStore, gameWordStore }: AppContext = getContext(appContextKey);
 
 const handleResetClick = () => {
-    reset(guessStore, positionStore);
+    reset(guessStore, positionStore, gameWordStore);
 }
 
 </script>

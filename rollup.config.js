@@ -7,11 +7,8 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
-import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
-const wordApiKey = process.env.WORD_API_KEY;
-const wordApiHost = process.env.WORD_API_HOST;
 
 function serve() {
 	let server;
@@ -43,12 +40,6 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
-		// Add process and env vars
-		replace({
-			'process.env.wordApiKey': wordApiKey,
-			'process.env.wordApiHost': wordApiHost,
-			preventAssignment: true		
-		}),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
