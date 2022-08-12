@@ -1,6 +1,7 @@
 <script lang="ts">
 import Reset from "carbon-icons-svelte/lib/Reset.svelte";
 import { getContext } from "svelte";
+import { APP_NAME } from "../AppConfig";
 import { AppContext, appContextKey } from "../AppContext";
 import { reset } from "../Store/Utils";
 
@@ -17,7 +18,7 @@ const handleResetClick = () => {
         <Reset size={24}/>
     </div>
    <div class="app-name">
-        Wordle Trainer
+        {APP_NAME}
    </div> 
    <div>
    </div>

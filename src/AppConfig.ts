@@ -1,6 +1,8 @@
 export const NUM_GUESSES = 5;
 export const WORD_LENGTH = 5;
 
+export const APP_NAME = "Wordle Prep"
+
 // CheckBox Colors
 export const WHITE = "#ffffff";
 export const YELLOW = "#ffd966";
