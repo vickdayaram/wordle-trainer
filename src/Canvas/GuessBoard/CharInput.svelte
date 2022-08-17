@@ -20,6 +20,7 @@ export let cgb: CharGuessBox;
         align-items: center;
         justify-content: center;
         background-color: var(--background-color);
+        color: var(--color);
     }
 
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import Nav from "./Nav/Nav.svelte";
 import Canvas from "./Canvas/Canvas.svelte";
-import { createGameWordStore, createGuessStore, createNotificationStore, createPositionStore } from "./Store/Store";
+import { createGameWordStore, createGuessStore, createKeyboardColorStore, createNotificationStore, createPositionStore } from "./Store/Store";
 import { onMount, setContext } from "svelte";
 import { AppContext, appContextKey } from "./AppContext";
 import { getWord } from "./API/Api";
@@ -9,7 +9,8 @@ import { getWord } from "./API/Api";
 let guessStore = createGuessStore();
 let positionStore = createPositionStore();
 let notificationStore = createNotificationStore();
-let gameWordStore = createGameWordStore("");;
+let gameWordStore = createGameWordStore("");
+let keyboardColorStore = createKeyboardColorStore();
 
 onMount(async () => {
     const res = await getWord();
@@ -21,14 +22,15 @@ setContext<AppContext>(appContextKey, {
 	guessStore,
 	positionStore,
 	notificationStore,
-	gameWordStore
+	gameWordStore,
+	keyboardColorStore
 });
 
 </script>
 
 <main>
+	<Nav/>
 	<div class="app-container">
-		<Nav/>
 		<Canvas/>
 	</div>
 </main>
@@ -40,6 +42,8 @@ setContext<AppContext>(appContextKey, {
 		width: 100%;
 		display: flex;
 		justify-content: center;
+		flex-flow: column;
+		align-items: center;
 	}
 
 	.app-container {

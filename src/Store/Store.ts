@@ -1,12 +1,13 @@
 import { Writable, writable } from "svelte/store";
-import { NUM_GUESSES, WHITE, WORD_LENGTH } from "../AppConfig";
-import type { CharGuessBox, NotificationStore, PositionStore } from "./Models";
+import { BLACK, NUM_GUESSES, WHITE, WORD_LENGTH } from "../AppConfig";
+import type { CharGuessBox, KeyboardColorStore, NotificationStore, PositionStore } from "./Models";
 
 export const getGuessStoreInitialState = (): CharGuessBox[][] => {
     return Array.from({length: NUM_GUESSES}, () => Array.from({length: WORD_LENGTH}, (_, idx) => ({
         value: " ",
         charIdx: idx,
-        backgroundColor: WHITE
+        backgroundColor: WHITE,
+        color: BLACK
     })));
 }
 
@@ -28,4 +29,8 @@ export const createNotificationStore = (): Writable<NotificationStore> => {
 
 export const createGameWordStore = (gameWord: string): Writable<string> => {
     return writable(gameWord);
+}
+
+export const createKeyboardColorStore = (): Writable<KeyboardColorStore> => {
+    return writable({});
 }

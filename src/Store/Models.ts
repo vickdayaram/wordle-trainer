@@ -2,6 +2,7 @@ export interface CharGuessBox {
     value: string;
     charIdx: number;
     backgroundColor: string;
+    color: string;
 }
 
 export interface PositionStore {
@@ -18,4 +19,8 @@ export interface Notification {
 
 export interface NotificationStore {
     notifications: Notification[];
+}
+
+export interface KeyboardColorStore {
+    [key: string]: string;
 }

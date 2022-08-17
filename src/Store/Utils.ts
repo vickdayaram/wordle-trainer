@@ -1,6 +1,6 @@
 import { get, Writable } from "svelte/store";
-import { GRAY, GREEN, NOTIFICATION_TIMEOUT, YELLOW } from "../AppConfig";
-import type { CharGuessBox, NotificationStore, PositionStore } from "./Models";
+import { GRAY, GREEN, NOTIFICATION_TIMEOUT, WHITE, YELLOW } from "../AppConfig";
+import type { CharGuessBox, KeyboardColorStore, NotificationStore, PositionStore } from "./Models";
 import { getGuessStoreInitialState, getPositionStoreInitialState } from "./Store";
 import { v4 as uuidv4 } from 'uuid';
 import { getWord } from "../API/Api";
@@ -84,7 +84,12 @@ export const isCorrectGuess = (guessStore: Writable<CharGuessBox[][]>, positionS
     return get(gameWordStore) === getCurrentGuess(guessStore, positionStore);
 }
 
-export const validateGuess = (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, gameWordStore: Writable<String>): boolean => {
+export const validateGuess = (
+    guessStore: Writable<CharGuessBox[][]>, 
+    positionStore: Writable<PositionStore>, 
+    gameWordStore: Writable<String>,
+    keyboardColorStore: Writable<KeyboardColorStore>
+    ): boolean => {
     const gameWord = get(gameWordStore);
     const { currentGuess } = get(positionStore);
     guessStore.update(storeState => {
@@ -93,12 +98,15 @@ export const validateGuess = (guessStore: Writable<CharGuessBox[][]>, positionSt
                 return guessRow.map((charBox, charIdx) => {
                     const { value } = charBox;
                     if (gameWord[charIdx] === value) {
-                        return {...charBox, backgroundColor: GREEN};
+                        updateKeyboardColorStore(keyboardColorStore, value, GREEN);
+                        return {...charBox, backgroundColor: GREEN, color: WHITE};
                     }
                     if (gameWord.indexOf(value) !== -1) {
-                        return {...charBox, backgroundColor: YELLOW};
+                        updateKeyboardColorStore(keyboardColorStore, value, YELLOW);
+                        return {...charBox, backgroundColor: YELLOW, color: WHITE};
                     }
-                    return {...charBox, backgroundColor: GRAY};
+                    updateKeyboardColorStore(keyboardColorStore, value, GRAY);
+                    return {...charBox, backgroundColor: GRAY, color: WHITE};
                 })
             }
             return guessRow;
@@ -118,4 +126,16 @@ export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStor
 export const isLastGuess = (positionStore: Writable<PositionStore>) => {
     const { currentGuess, maxGuess } = get(positionStore);
     return currentGuess === maxGuess;
+}
+
+const updateKeyboardColorStore = (keyboardColorStore: Writable<KeyboardColorStore>, char: string, color: string) => {
+    keyboardColorStore.update(storeState => {
+        const currentColor = storeState[char];
+        if ((currentColor === undefined) || (currentColor === YELLOW && color === GREEN)) {
+            storeState[char] = color;
+            return storeState;
+        }
+        return storeState;
+    })
+    
 }

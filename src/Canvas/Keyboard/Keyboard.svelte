@@ -7,7 +7,7 @@ import { getContext } from "svelte";
 import { CLOSE, getTheWordWasMessage, INCOMPLETE_GUESS, YOU_LOOSE, YOU_WIN } from "../../AppConfig";
 import { get } from "svelte/store";
 
-const { guessStore, positionStore, notificationStore, gameWordStore }: AppContext = getContext(appContextKey);
+const { guessStore, positionStore, notificationStore, gameWordStore, keyboardColorStore }: AppContext = getContext(appContextKey);
 
 const keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -27,7 +27,7 @@ const onKeyPress = (keyValue: string) => {
     }
     
     if (keyValue === "Enter") {
-        const isCorrectGuess = validateGuess(guessStore, positionStore, gameWordStore);
+        const isCorrectGuess = validateGuess(guessStore, positionStore, gameWordStore, keyboardColorStore);
         if (isCorrectGuess) {
             notify(notificationStore, YOU_WIN);
             return;

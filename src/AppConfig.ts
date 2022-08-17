@@ -7,7 +7,8 @@ export const APP_NAME = "Wordle Prep"
 export const WHITE = "#ffffff";
 export const YELLOW = "#ffd966";
 export const GREEN = "#8fce00";
-export const GRAY = "#bcbcbc";
+export const GRAY = "#808080";
+export const BLACK = "#000000"
 
 // Notification Messages
 export const YOU_WIN = "You got it, you win!";
