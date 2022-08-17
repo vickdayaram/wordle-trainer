@@ -7,7 +7,8 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "deploy": "npm run build && git subtree push --prefix public/ origin gh-pages --squash"
+    "deploy": "npm run build && git subtree push --prefix public/ origin gh-pages --squash",
+    "force-deploy": "git push origin `git subtree split --prefix public mainline`:gh-pages --force"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
