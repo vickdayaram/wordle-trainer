@@ -116,11 +116,12 @@ export const validateGuess = (
     return isCorrect;
 }
 
-export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, gameWordStore: Writable<String>) => {
+export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, gameWordStore: Writable<String>, keyboardColorStore: Writable<KeyboardColorStore>) => {
     guessStore.update(_ => getGuessStoreInitialState());
     positionStore.update(_ => getPositionStoreInitialState());
     const nextGameWord = await getWord();
     gameWordStore.update(_ => nextGameWord);
+    keyboardColorStore.update(_ => ({}));
 }
 
 export const isLastGuess = (positionStore: Writable<PositionStore>) => {

@@ -5,10 +5,10 @@ import { APP_NAME } from "../AppConfig";
 import { AppContext, appContextKey } from "../AppContext";
 import { reset } from "../Store/Utils";
 
-const { guessStore, positionStore, gameWordStore }: AppContext = getContext(appContextKey);
+const { guessStore, positionStore, gameWordStore, keyboardColorStore }: AppContext = getContext(appContextKey);
 
 const handleResetClick = () => {
-    reset(guessStore, positionStore, gameWordStore);
+    reset(guessStore, positionStore, gameWordStore, keyboardColorStore);
 }
 
 </script>

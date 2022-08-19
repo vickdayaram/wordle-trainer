@@ -1,4 +1,4 @@
-export const NUM_GUESSES = 5;
+export const NUM_GUESSES = 6;
 export const WORD_LENGTH = 5;
 
 export const APP_NAME = "Wordle Prep"

@@ -37,4 +37,7 @@ import { AppContext, appContextKey } from "../../AppContext";
         align-items: center;
         justify-content: center;
     }
+    .key:focus {
+        border-color: transparent
+    }
 </style>
