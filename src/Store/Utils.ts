@@ -119,9 +119,9 @@ export const validateGuess = (
 export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, gameWordStore: Writable<String>, keyboardColorStore: Writable<KeyboardColorStore>) => {
     guessStore.update(_ => getGuessStoreInitialState());
     positionStore.update(_ => getPositionStoreInitialState());
+    keyboardColorStore.update(_ => ({}));
     const nextGameWord = await getWord();
     gameWordStore.update(_ => nextGameWord);
-    keyboardColorStore.update(_ => ({}));
 }
 
 export const isLastGuess = (positionStore: Writable<PositionStore>) => {
