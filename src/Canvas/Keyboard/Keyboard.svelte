@@ -27,7 +27,6 @@ const onKeyPress = (keyValue: string) => {
     }
 
     if (keyValue === "Enter" && !isValidGuess(guessStore, positionStore, allowedWordsStore)) {
-        console.log("invalida");
         notify(notificationStore, INVALID_GUESS);
         return;
     }
