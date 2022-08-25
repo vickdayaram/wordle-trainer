@@ -34,3 +34,7 @@ export const createGameWordStore = (gameWord: string): Writable<string> => {
 export const createKeyboardColorStore = (): Writable<KeyboardColorStore> => {
     return writable({});
 }
+
+export const createAllowedWordsStore = (): Writable<Set<string>> => {
+    return writable(new Set());
+}

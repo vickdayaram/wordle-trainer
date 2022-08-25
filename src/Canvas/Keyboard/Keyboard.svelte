@@ -1,13 +1,13 @@
 <script lang="ts">
-import { backspace, isGameComplete, isGuessComplete, isLastGuess, multiLineNotify, notify, processCharInput, updateCurrentGuess, validateGuess } from "../../Store/Utils";
+import { backspace, isGameComplete, isGuessComplete, isLastGuess, isValidGuess, multiLineNotify, notify, processCharInput, updateCurrentGuess, validateGuess } from "../../Store/Utils";
 
 import Key from "./Key.svelte";
 import { AppContext, appContextKey } from "../../AppContext";
 import { getContext } from "svelte";
-import { CLOSE, getTheWordWasMessage, INCOMPLETE_GUESS, YOU_LOOSE, YOU_WIN } from "../../AppConfig";
+import { CLOSE, getTheWordWasMessage, INCOMPLETE_GUESS, INVALID_GUESS, YOU_LOOSE, YOU_WIN } from "../../AppConfig";
 import { get } from "svelte/store";
 
-const { guessStore, positionStore, notificationStore, gameWordStore, keyboardColorStore }: AppContext = getContext(appContextKey);
+const { guessStore, positionStore, notificationStore, gameWordStore, keyboardColorStore, allowedWordsStore }: AppContext = getContext(appContextKey);
 
 const keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -23,6 +23,12 @@ const onKeyPress = (keyValue: string) => {
 
     if (keyValue === "Enter" && !isGuessComplete(positionStore)) {
         notify(notificationStore, INCOMPLETE_GUESS);
+        return;
+    }
+
+    if (keyValue === "Enter" && !isValidGuess(guessStore, positionStore, allowedWordsStore)) {
+        console.log("invalida");
+        notify(notificationStore, INVALID_GUESS);
         return;
     }
     

@@ -3,7 +3,7 @@ import { GRAY, GREEN, NOTIFICATION_TIMEOUT, WHITE, YELLOW } from "../AppConfig";
 import type { CharGuessBox, KeyboardColorStore, NotificationStore, PositionStore } from "./Models";
 import { getGuessStoreInitialState, getPositionStoreInitialState } from "./Store";
 import { v4 as uuidv4 } from 'uuid';
-import { getWord } from "../API/Api";
+import { getWordValid } from "../Words/Words";
 
 export const notify = (notificationStore: Writable<NotificationStore>, msg: string) => {
     const id = uuidv4()
@@ -120,7 +120,7 @@ export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStor
     guessStore.update(_ => getGuessStoreInitialState());
     positionStore.update(_ => getPositionStoreInitialState());
     keyboardColorStore.update(_ => ({}));
-    const nextGameWord = await getWord();
+    const nextGameWord = await getWordValid();
     gameWordStore.update(_ => nextGameWord);
 }
 
@@ -139,4 +139,10 @@ const updateKeyboardColorStore = (keyboardColorStore: Writable<KeyboardColorStor
         return storeState;
     })
     
+}
+
+export const isValidGuess = (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, allowedWordsStore: Writable<Set<string>>) => {
+    const currentGuess = getCurrentGuess(guessStore, positionStore);
+    const allowedWords = get(allowedWordsStore);
+    return allowedWords.has(currentGuess);
 }

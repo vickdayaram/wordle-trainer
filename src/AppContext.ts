@@ -8,5 +8,6 @@ export interface AppContext {
    positionStore: Writable<PositionStore>;
    notificationStore: Writable<NotificationStore>;
    gameWordStore: Writable<string>;
-   keyboardColorStore: Writable<KeyboardColorStore>
+   keyboardColorStore: Writable<KeyboardColorStore>;
+   allowedWordsStore: Writable<Set<string>>;
 }
