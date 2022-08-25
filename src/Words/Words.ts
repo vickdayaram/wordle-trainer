@@ -10,6 +10,11 @@ const getAnswers = async (): Promise<string[]> => {
     return parseData(data);
 }
 
+const getAllowedWords = async (): Promise<string[]> => {
+    const { data } = await axios.get('./Allowed.txt');
+    return parseData(data);
+}
+
 const getRandomIdx = (max): number => {
 	return Math.floor(Math.random() * (max + 1)); 
 }
@@ -21,6 +26,7 @@ export const getWordValid = async () => {
 }
 
 export const getAllowedWordsSet = async (): Promise<Set<string>> => {
-    const { data } = await axios.get('./Allowed.txt');
-    return new Set(parseData(data));
+    const allowedWords = await getAllowedWords();
+    const answerWords = await getAnswers();
+    return new Set([...allowedWords, ...answerWords]);
 }
