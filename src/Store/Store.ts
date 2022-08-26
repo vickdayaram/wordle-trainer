@@ -4,7 +4,7 @@ import type { CharGuessBox, KeyboardColorStore, NotificationStore, PositionStore
 
 export const getGuessStoreInitialState = (): CharGuessBox[][] => {
     return Array.from({length: NUM_GUESSES}, () => Array.from({length: WORD_LENGTH}, (_, idx) => ({
-        value: " ",
+        value: "",
         charIdx: idx,
         backgroundColor: WHITE,
         color: BLACK

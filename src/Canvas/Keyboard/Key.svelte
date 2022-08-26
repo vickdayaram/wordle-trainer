@@ -17,11 +17,16 @@ import { AppContext, appContextKey } from "../../AppContext";
     })
 	onDestroy(unsub);
 
+    const handleClick = (e) => {
+        e.preventDefault();
+        onKeyPress(keyValue)
+    }
+
 </script>
 
 <button 
     class="key" 
-    on:click={() => onKeyPress(keyValue)} 
+    on:click={handleClick} 
     style="--background-color: {backgroundColor}; --color: {color}">
     {keyValue}
 </button>
