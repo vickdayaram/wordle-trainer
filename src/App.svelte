@@ -5,6 +5,7 @@ import { createAllowedWordsStore, createGameWordStore, createGuessStore, createK
 import { onMount, setContext } from "svelte";
 import { AppContext, appContextKey } from "./AppContext";
 import { getWordValid, getAllowedWordsSet } from "./Words/Words";
+import { logVersion } from "./Version";
 
 let guessStore = createGuessStore();
 let positionStore = createPositionStore();
@@ -19,6 +20,7 @@ onMount(async () => {
 	console.log(gameWord);
     gameWordStore.update(_ => gameWord);
 	allowedWordsStore.update(_ => allowedWords);
+	await logVersion();
 });
 
 setContext<AppContext>(appContextKey, {
