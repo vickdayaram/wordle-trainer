@@ -3,7 +3,7 @@
 export let value: string;
 
 const customEasing = (t: number) => {
-    return Math.min(t + .75, 1.3);
+    return Math.min(t + .75, 1.085);
 }
 
 const customTransition = (node, params) => {
