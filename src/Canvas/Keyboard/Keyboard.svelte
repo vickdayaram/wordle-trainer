@@ -12,7 +12,7 @@ const { guessStore, positionStore, notificationStore, gameWordStore, keyboardCol
 const keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-    ["Enter", "Z", "X", "C", "V", "B", "N", "M", "<x"]
+    ["Enter", "Z", "X", "C", "V", "B", "N", "M", "&#9003;"]
 ]
 
 const onKeyPress = (keyValue: string) => {
@@ -47,7 +47,7 @@ const onKeyPress = (keyValue: string) => {
         return;
     }
 
-    if (keyValue === "<x") {
+    if (keyValue === "&#9003;") {
         backspace(guessStore, positionStore);
         return;
     }
@@ -58,8 +58,8 @@ const onKeyPress = (keyValue: string) => {
 </script>
 
 <div class="keyboard">
-    {#each keys as row}
-        <div class="row">
+    {#each keys as row, rowIdx}
+        <div class="row" class:center={rowIdx === 1}>
             {#each row as key}
                 <Key keyValue={key} {onKeyPress}/>
             {/each}
@@ -73,10 +73,16 @@ const onKeyPress = (keyValue: string) => {
         flex-grow: 1;
         flex-flow: column;
         justify-content: space-evenly;
+        align-items: center;
     }
 
     .row {
         display: flex;
         justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .center {
+        width: 90%;
     }
 </style>

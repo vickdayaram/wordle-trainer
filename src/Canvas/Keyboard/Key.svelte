@@ -1,48 +1,82 @@
 <script lang="ts">
 import { getContext, onDestroy } from "svelte";
-import { BLACK, WHITE } from "../../AppConfig";
+import { GRAY, GREEN, YELLOW } from "../../AppConfig";
 import { AppContext, appContextKey } from "../../AppContext";
 
+export let keyValue: string;
+export let onKeyPress: (keyValue: string) => void;
 
-    export let keyValue: string;
-    export let onKeyPress: (keyValue: string) => void;
+let key;
+const { keyboardColorStore }: AppContext = getContext(appContextKey);
 
-    const defaultBackgroundColor = "gainsboro";
-    const { keyboardColorStore }: AppContext = getContext(appContextKey);
-    let backgroundColor: string;
-    let color: string;
-    const unsub = keyboardColorStore.subscribe(colors => {
-        backgroundColor = colors[keyValue] ? colors[keyValue] : defaultBackgroundColor;
-        color = backgroundColor === defaultBackgroundColor ? BLACK : WHITE;
-    })
-	onDestroy(unsub);
+let backgroundColor: string;
+const unsub = keyboardColorStore.subscribe(colors => {
+    backgroundColor = colors[keyValue] ? colors[keyValue] : "";
+})
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        onKeyPress(keyValue)
-    }
+onDestroy(unsub);
+
+const handleMouseDown = (e) => {
+    e.preventDefault();
+    key.classList.add('key-press');
+}
+
+const handleClick = (e) => {
+    e.preventDefault();
+    onKeyPress(keyValue);
+}
+
+const handleMouseUp = (e) => {
+    e.preventDefault();
+    key.classList.remove('key-press');
+}
 
 </script>
 
-<button 
+<button
+    class:green={backgroundColor === GREEN}
+    class:gray={backgroundColor === GRAY}
+    class:yellow={backgroundColor === YELLOW}
+    bind:this={key} 
     class="key" 
-    on:click={handleClick} 
-    style="--background-color: {backgroundColor}; --color: {color}">
-    {keyValue}
+    on:click={handleClick}
+    on:mouseup={handleMouseUp}
+    on:mousedown={handleMouseDown}>
+    {@html keyValue}
 </button>
 
 <style>
 	.key {
         display: flex;
         height: 58px;
-        color: var(--color);
-        background-color: var(--background-color);
-        flex: 1;
-        margin: 0 4px;
+        color: #000000;
+        background-color: gainsboro;
         align-items: center;
         justify-content: center;
+        min-width: 30px;
     }
+
     .key:focus {
-        border-color: transparent
+        border-color: transparent;
     }
+
+    .key:active {
+        filter: brightness(0.85);
+    }
+
+    .green {
+        background-color: #8fce00;
+        color: #ffffff;
+    }
+
+    .yellow {
+        background-color: #ffd966;
+        color: #ffffff;
+    }
+
+    .gray {
+        background-color: #808080;
+        color: #ffffff;
+    }
+
 </style>
