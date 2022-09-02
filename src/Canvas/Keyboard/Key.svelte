@@ -64,19 +64,4 @@ const handleMouseUp = (e) => {
         filter: brightness(0.85);
     }
 
-    .green {
-        background-color: #8fce00;
-        color: #ffffff;
-    }
-
-    .yellow {
-        background-color: #ffd966;
-        color: #ffffff;
-    }
-
-    .gray {
-        background-color: #808080;
-        color: #ffffff;
-    }
-
 </style>

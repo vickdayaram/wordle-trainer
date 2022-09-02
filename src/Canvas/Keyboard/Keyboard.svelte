@@ -1,5 +1,5 @@
 <script lang="ts">
-import { backspace, isGameComplete, isGuessComplete, isLastGuess, isValidGuess, multiLineNotify, notify, processCharInput, updateCurrentGuess, validateGuess } from "../../Store/Utils";
+import { backspace, isCorrectGuess, isGameComplete, isGuessComplete, isLastGuess, isValidGuess, multiLineNotify, notify, processCharInput, updateCurrentGuess, validateGuess } from "../../Store/Utils";
 
 import Key from "./Key.svelte";
 import { AppContext, appContextKey } from "../../AppContext";
@@ -15,7 +15,7 @@ const keys = [
     ["Enter", "Z", "X", "C", "V", "B", "N", "M", "&#9003;"]
 ]
 
-const onKeyPress = (keyValue: string) => {
+const onKeyPress = async (keyValue: string) => {
     
     if (isGameComplete(positionStore)) {
         return;
@@ -32,8 +32,9 @@ const onKeyPress = (keyValue: string) => {
     }
     
     if (keyValue === "Enter") {
-        const isCorrectGuess = validateGuess(guessStore, positionStore, gameWordStore, keyboardColorStore);
-        if (isCorrectGuess) {
+        await validateGuess(guessStore, positionStore, gameWordStore, keyboardColorStore);
+        const isCorrect = isCorrectGuess(guessStore, positionStore, gameWordStore);
+        if (isCorrect) {
             notify(notificationStore, YOU_WIN);
             return;
         }

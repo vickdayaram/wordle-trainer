@@ -27,7 +27,7 @@ const handleResetClick = () => {
 <style>
 
     .nav {
-        height: 65px;
+        height: 40px;
         width: 100%;
         display: flex;
         align-items: center;

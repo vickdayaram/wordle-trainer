@@ -60,5 +60,20 @@ setContext<AppContext>(appContextKey, {
 		height: 100%;
 		max-width: 350px;
 	}
+
+	:global(.green) {
+		background-color: #8fce00 !important;
+		color: #ffffff !important;
+	}
+
+	:global(.yellow) {
+		background-color: #ffd966 !important;
+		color: #ffffff !important;
+	}
+
+	:global(.gray) {
+		background-color: #808080 !important;
+		color: #ffffff !important;
+	}
 	
 </style>

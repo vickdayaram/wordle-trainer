@@ -18,10 +18,9 @@ onDestroy(unsub);
     {#each board as guess}
         <div class="guess">
             {#each guess as cgb}
-                <CharInput 
+                <CharInput
                    value={cgb.value} 
-                   --background-color={cgb.backgroundColor} 
-                   --color={cgb.color}
+                   backgroundColor={cgb.backgroundColor}
                  />
             {/each}
         </div>

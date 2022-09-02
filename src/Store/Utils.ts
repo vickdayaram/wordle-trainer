@@ -84,36 +84,48 @@ export const isCorrectGuess = (guessStore: Writable<CharGuessBox[][]>, positionS
     return get(gameWordStore) === getCurrentGuess(guessStore, positionStore);
 }
 
-export const validateGuess = (
+const computeNextColor = (charValue: string, gameWord: string, charIdx: number) => {
+    if (gameWord[charIdx] === charValue) {
+        return GREEN;
+    }
+    if (gameWord.indexOf(charValue) !== -1) {
+        return YELLOW;
+    }
+    return GRAY;
+}
+
+const updateGuessRowCharState = (guessStore: Writable<CharGuessBox[][]>, currentGuess: number, gameWord: string, charIdx: number) => {
+    guessStore.update(storeState => {
+        let nextState = [...storeState];
+        let charBox = nextState[currentGuess][charIdx];
+        let backgroundColor = computeNextColor(charBox.value, gameWord, charIdx);
+        nextState[currentGuess][charIdx] = {...charBox, backgroundColor, color: WHITE};
+        return nextState;
+    });
+}
+
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export const validateGuess = async (
     guessStore: Writable<CharGuessBox[][]>, 
     positionStore: Writable<PositionStore>, 
-    gameWordStore: Writable<String>,
+    gameWordStore: Writable<string>,
     keyboardColorStore: Writable<KeyboardColorStore>
-    ): boolean => {
+    ) => {
     const gameWord = get(gameWordStore);
     const { currentGuess } = get(positionStore);
-    guessStore.update(storeState => {
-        return storeState.map((guessRow, idx) => {
-            if (currentGuess === idx) {
-                return guessRow.map((charBox, charIdx) => {
-                    const { value } = charBox;
-                    if (gameWord[charIdx] === value) {
-                        updateKeyboardColorStore(keyboardColorStore, value, GREEN);
-                        return {...charBox, backgroundColor: GREEN, color: WHITE};
-                    }
-                    if (gameWord.indexOf(value) !== -1) {
-                        updateKeyboardColorStore(keyboardColorStore, value, YELLOW);
-                        return {...charBox, backgroundColor: YELLOW, color: WHITE};
-                    }
-                    updateKeyboardColorStore(keyboardColorStore, value, GRAY);
-                    return {...charBox, backgroundColor: GRAY, color: WHITE};
-                })
-            }
-            return guessRow;
-        })
-    })
-    const isCorrect = isCorrectGuess(guessStore, positionStore, gameWordStore);
-    return isCorrect;
+    for(let i = 0; i < 5; i++) {
+        updateGuessRowCharState(guessStore, currentGuess, gameWord, i);
+        await sleep(300);
+    }
+    const lastGuess = getCurrentGuess(guessStore, positionStore);
+    for(let i = 0; i < 5; i++) {
+        let char = lastGuess[i];
+        let backgroundColor = computeNextColor(char, gameWord, i);
+        updateKeyboardColorStore(keyboardColorStore, char, backgroundColor);
+    }
 }
 
 export const reset = async (guessStore: Writable<CharGuessBox[][]>, positionStore: Writable<PositionStore>, gameWordStore: Writable<String>, keyboardColorStore: Writable<KeyboardColorStore>) => {

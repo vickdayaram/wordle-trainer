@@ -1,12 +1,14 @@
 <script lang="ts">
+import { GRAY, GREEN, WHITE, YELLOW } from "../../AppConfig";
 
 export let value: string;
+export let backgroundColor: string;
 
 const customEasing = (t: number) => {
     return Math.min(t + .75, 1.085);
 }
 
-const customTransition = (node, params) => {
+const enterCharTransition = (node, params) => {
     return {
       css: (t) => {
         return `
@@ -18,16 +20,36 @@ const customTransition = (node, params) => {
     };
   };
 
+const revealGuessTransition = (node, params) => {
+    return {
+      css: (t) => {
+        return `
+        transform: rotateX(180deg);
+        `;
+      },
+      easing: customEasing,
+      duration: 750,
+    };
+}
+
 </script>
 
-{#if value !== ""}
-<div class="char-input char-border" in:customTransition>
-    {value}
-</div>
+{#if value !== "" && backgroundColor !== WHITE}
+    <div 
+        class="char-input char-border"
+        class:green={backgroundColor === GREEN}
+        class:gray={backgroundColor === GRAY}
+        class:yellow={backgroundColor === YELLOW}>
+        {value}
+    </div>
+{:else if value !== ""}
+    <div class="char-input char-border" in:enterCharTransition>
+        {value}
+    </div>
 {:else}
-<div class="char-input">
-    {value}
-</div>
+    <div class="char-input">
+        {value}
+    </div>
 {/if}
 
 
@@ -41,10 +63,10 @@ const customTransition = (node, params) => {
         border: 2px solid grey;
         align-items: center;
         justify-content: center;
-        background-color: var(--background-color);
-        color: var(--color);
         font-weight: bold;
-        border-radius: 10%
+        border-radius: 10%;
+        perspective: 1000px;
+        transform-style: preserve-3d;
     }
 
     .char-border {
