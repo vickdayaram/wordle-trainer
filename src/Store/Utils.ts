@@ -4,6 +4,7 @@ import type { CharGuessBox, KeyboardColorStore, NotificationStore, PositionStore
 import { getGuessStoreInitialState, getPositionStoreInitialState } from "./Store";
 import { v4 as uuidv4 } from 'uuid';
 import { getWordValid } from "../Words/Words";
+import { sleep } from "../Utils";
 
 export const notify = (notificationStore: Writable<NotificationStore>, msg: string) => {
     const id = uuidv4()
@@ -104,10 +105,6 @@ const updateGuessRowCharState = (guessStore: Writable<CharGuessBox[][]>, current
     });
 }
 
-const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export const validateGuess = async (
     guessStore: Writable<CharGuessBox[][]>, 
     positionStore: Writable<PositionStore>, 
@@ -118,7 +115,7 @@ export const validateGuess = async (
     const { currentGuess } = get(positionStore);
     for(let i = 0; i < 5; i++) {
         updateGuessRowCharState(guessStore, currentGuess, gameWord, i);
-        await sleep(300);
+        // await sleep(300);
     }
     const lastGuess = getCurrentGuess(guessStore, positionStore);
     for(let i = 0; i < 5; i++) {

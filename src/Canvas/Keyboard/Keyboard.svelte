@@ -4,7 +4,7 @@ import { backspace, isCorrectGuess, isGameComplete, isGuessComplete, isLastGuess
 import Key from "./Key.svelte";
 import { AppContext, appContextKey } from "../../AppContext";
 import { getContext } from "svelte";
-import { CLOSE, getTheWordWasMessage, INCOMPLETE_GUESS, INVALID_GUESS, YOU_LOOSE, YOU_WIN } from "../../AppConfig";
+import { getTheWordWasMessage, INCOMPLETE_GUESS, INVALID_GUESS, YOU_LOOSE, YOU_WIN_NOTIFICATIONS } from "../../AppConfig";
 import { get } from "svelte/store";
 
 const { guessStore, positionStore, notificationStore, gameWordStore, keyboardColorStore, allowedWordsStore }: AppContext = getContext(appContextKey);
@@ -35,7 +35,9 @@ const onKeyPress = async (keyValue: string) => {
         await validateGuess(guessStore, positionStore, gameWordStore, keyboardColorStore);
         const isCorrect = isCorrectGuess(guessStore, positionStore, gameWordStore);
         if (isCorrect) {
-            notify(notificationStore, YOU_WIN);
+            const { currentGuess } = get(positionStore);
+            const youWinMessage = YOU_WIN_NOTIFICATIONS[currentGuess];
+            notify(notificationStore, youWinMessage);
             return;
         }
         updateCurrentGuess(positionStore);
@@ -44,7 +46,6 @@ const onKeyPress = async (keyValue: string) => {
             multiLineNotify(notificationStore, [YOU_LOOSE, getTheWordWasMessage(gameword)])
             return;
         }        
-        notify(notificationStore, CLOSE);
         return;
     }
 
