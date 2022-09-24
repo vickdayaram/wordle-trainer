@@ -17,7 +17,6 @@ let allowedWordsStore = createAllowedWordsStore();
 onMount(async () => {
     const gameWord = await getWordValid();
 	const allowedWords = await getAllowedWordsSet();
-	console.log(gameWord);
     gameWordStore.update(_ => gameWord);
 	allowedWordsStore.update(_ => allowedWords);
 	await logVersion();

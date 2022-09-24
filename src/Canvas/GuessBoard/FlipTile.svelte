@@ -7,12 +7,16 @@ import TextTile from './TextTile.svelte';
 export let value: string;
 export let backgroundColor: string;
 export let animationDelay: number;
+let flip = false;
 
 $: if (value !== "" && backgroundColor !== WHITE) {
     readyForFlip();
 }
 
-let flip = false;
+$: if (value == "" && backgroundColor === WHITE) {
+    flip = false;
+}
+
 const readyForFlip = async () => {
     await sleep(TILE_FLIP_DELAY * animationDelay);
     flip = true;

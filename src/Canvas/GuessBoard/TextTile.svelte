@@ -52,7 +52,6 @@ const enterCharTransition = (node, params) => {
         align-items: center;
         justify-content: center;
         font-weight: bold;
-        border-radius: 10%;
     }
 
     .char-border {

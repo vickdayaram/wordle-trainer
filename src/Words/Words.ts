@@ -22,7 +22,9 @@ const getRandomIdx = (max): number => {
 export const getWordValid = async () => {
     const words = await getAnswers();
     const wIdx = getRandomIdx(ANSWERS_SIZE);
-    return words[wIdx];
+    const word = words[wIdx];
+    console.log(word);
+    return word;
 }
 
 export const getAllowedWordsSet = async (): Promise<Set<string>> => {
